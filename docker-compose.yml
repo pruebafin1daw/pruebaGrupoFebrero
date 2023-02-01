@@ -1,0 +1,35 @@
+version: "3.9"
+services:
+  mongo:
+    image: "mongo:latest"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$DB_USER
+      - MONGO_INITDB_ROOT_PASSWORD=$DB_PASSWORD
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - "1888:27017"
+    networks:
+      api_network:
+        aliases:
+          - mongo_bd
+  api:
+    build: ./server/
+    ports:
+      - "443:443"
+    depends_on:
+      - mongo
+    networks:
+      api_network:
+        aliases:
+          - api_server
+
+networks:
+  api_network:
+    name: api_net
+    driver: bridge
+    ipam:
+      driver: default
+
+volumes:
+  mongo-data:
