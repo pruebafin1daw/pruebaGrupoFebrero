@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const CarSchema = mongoose.Schema({
-    mac: {
+    id: {
         type: String,
         required: true
     }

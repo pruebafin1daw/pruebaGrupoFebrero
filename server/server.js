@@ -22,6 +22,7 @@ mongoose.connect('mongodb://' + DB_User + ':' + DB_Password +
 
 // Models
 const Car = require('./models/Car');
+const Client = require('./models/Client');
 
 // ---------- EXPRESS
 
@@ -30,11 +31,15 @@ const app = express();
 app.use(bodyparser.json());
 app.use(cors());
 
+// Routes
+const routes = require('./routes/routes');
+app.use('/', routes);
+
 // Listening
 https.createServer({ 
-    key: fs.readFileSync('./keys/key.pem'), 
-    cert: fs.readFileSync('./keys/cert.pem') 
+    key: fs.readFileSync('./keys/localost.key'), 
+    cert: fs.readFileSync('./keys/localhost.crt') 
 }, app)
 .listen(process.env.SERVER_PORT, () => {
-    console.log('Server running: 443');
+    console.log('Server running: ' + process.env.SERVER_PORT);
 })
